@@ -7,3 +7,8 @@ what we learn
   https://github.com/github/awesome-copilot
 
   https://promptboost.dev/
+
+
+  docker run hello-world
+וא
+  docker run -p 8080:80 nginx
