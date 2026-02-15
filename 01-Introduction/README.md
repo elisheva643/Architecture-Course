@@ -4,9 +4,7 @@ what we learn
   2.what is include?
   3.docker- explaination
 
-  https://github.com/github/awesome-copilot
-
-  https://promptboost.dev/
+  
 
 
   docker run hello-world
