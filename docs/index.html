@@ -1,1 +1,527 @@
-do
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>קורס ארכיטקטורת מערכות מודרניות</title>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0d1117;
+      --bg2: #161b22;
+      --bg3: #1c2128;
+      --border: #30363d;
+      --accent: #f0883e;
+      --accent2: #58a6ff;
+      --accent3: #3fb950;
+      --text: #e6edf3;
+      --text-muted: #8b949e;
+      --tag-bg: #1f2937;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Heebo', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      font-size: 16px;
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      background: linear-gradient(135deg, #0d1117 0%, #1a1f2e 50%, #0d1117 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 72px 40px 56px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(240,136,62,.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(240,136,62,.15);
+      border: 1px solid rgba(240,136,62,.4);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: clamp(28px, 5vw, 52px);
+      font-weight: 900;
+      letter-spacing: -1px;
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+    .hero h1 span { color: var(--accent); }
+    .hero p {
+      color: var(--text-muted);
+      font-size: 18px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* ─── LAYOUT ─── */
+    .container { max-width: 960px; margin: 0 auto; padding: 48px 24px; }
+
+    /* ─── SECTION TITLES ─── */
+    h2 {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 24px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    h2 .icon { font-size: 20px; }
+
+    /* ─── SYLLABUS GRID ─── */
+    .syllabus-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+      margin-bottom: 56px;
+    }
+    .lesson-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 22px;
+      transition: border-color .2s, transform .2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .lesson-card::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 3px; height: 100%;
+      background: var(--card-accent, var(--accent));
+      border-radius: 0 12px 12px 0;
+    }
+    .lesson-card:hover { border-color: var(--card-accent, var(--accent)); transform: translateY(-2px); }
+    .lesson-card .num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--card-accent, var(--accent));
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+      display: block;
+    }
+    .lesson-card h3 {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .lesson-card p { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+
+    /* card accent colors */
+    .c1 { --card-accent: #f0883e; }
+    .c2 { --card-accent: #58a6ff; }
+    .c3 { --card-accent: #3fb950; }
+    .c4 { --card-accent: #d2a8ff; }
+    .c5 { --card-accent: #ff7b72; }
+    .c6 { --card-accent: #e3b341; }
+    .c7 { --card-accent: #39d353; }
+
+    /* ─── FOLDER TREE ─── */
+    .tree-wrap {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 56px;
+    }
+    .tree-header {
+      background: var(--bg3);
+      padding: 12px 20px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .tree-header::before { content: '📁'; }
+    pre.tree {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      line-height: 1.8;
+      padding: 24px;
+      direction: ltr;
+      text-align: left;
+      overflow-x: auto;
+      color: #cdd9e5;
+    }
+    pre.tree .dir  { color: var(--accent2); }
+    pre.tree .file { color: #8b949e; }
+    pre.tree .com  { color: #3fb950; }
+
+    /* ─── TABLES ─── */
+    .table-wrap {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 32px;
+    }
+    table { width: 100%; border-collapse: collapse; }
+    th {
+      background: var(--bg3);
+      padding: 12px 20px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-align: right;
+      border-bottom: 1px solid var(--border);
+    }
+    td {
+      padding: 12px 20px;
+      font-size: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(255,255,255,.02); }
+    td:first-child { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--accent2); }
+
+    /* ─── SUBMISSION STEPS ─── */
+    .steps { display: flex; flex-direction: column; gap: 12px; margin-bottom: 32px; }
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 20px;
+    }
+    .step-num {
+      min-width: 32px; height: 32px;
+      background: rgba(240,136,62,.15);
+      border: 1px solid rgba(240,136,62,.4);
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 14px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .step-body { flex: 1; }
+    .step-body strong { display: block; font-size: 15px; margin-bottom: 4px; }
+    .step-body span { font-size: 13px; color: var(--text-muted); }
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      background: rgba(88,166,255,.1);
+      color: var(--accent2);
+      padding: 1px 6px;
+      border-radius: 4px;
+    }
+
+    /* ─── TAGS / PREREQS ─── */
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px; }
+    .tag {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 13px;
+      padding: 6px 14px;
+      border-radius: 20px;
+    }
+
+    /* ─── FOOTER ─── */
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 24px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+    .footer strong { color: var(--accent); }
+
+    /* ─── ISSUES LEGEND ─── */
+    .issues { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+    .issue-tag {
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 20px;
+      border: 1px solid;
+    }
+    .issue-tag.question { color: #58a6ff; border-color: #58a6ff; background: rgba(88,166,255,.1); }
+    .issue-tag.bug      { color: #ff7b72; border-color: #ff7b72; background: rgba(255,123,114,.1); }
+    .issue-tag.feedback { color: #3fb950; border-color: #3fb950; background: rgba(63,185,80,.1);  }
+
+    section { margin-bottom: 56px; }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-badge">Architecture Course</div>
+  <h1>קורס <span>ארכיטקטורת</span> מערכות מודרניות</h1>
+  <p>תכנון ובנייה של מערכות תוכנה סקיילביליות — מ-Docker ועד CI/CD</p>
+</header>
+
+<main class="container">
+
+  <!-- SYLLABUS -->
+  <section>
+    <h2><span class="icon">📋</span> סילבוס</h2>
+    <div class="syllabus-grid">
+
+      <div class="lesson-card c1">
+        <span class="num">01 · LESSON</span>
+        <h3>🐳 Docker</h3>
+        <p>קונטיינריזציה, Dockerfile, Docker Compose, רשתות ו-volumes. הבנת ההבדל בין קונטיינר למכונה וירטואלית.</p>
+      </div>
+
+      <div class="lesson-card c2">
+        <span class="num">02 · LESSON</span>
+        <h3>⚡ Caching</h3>
+        <p>עקרונות cache, Redis, Cache-Aside / Write-Through, TTL ו-invalidation לשיפור ביצועים.</p>
+      </div>
+
+      <div class="lesson-card c3">
+        <span class="num">03 · LESSON</span>
+        <h3>🧩 Microservices</h3>
+        <p>מעבר ממונוליט, תקשורת sync/async, Bounded Context ועקרונות Domain Driven Design בסיסיים.</p>
+      </div>
+
+      <div class="lesson-card c4">
+        <span class="num">04 · LESSON</span>
+        <h3>🚪 API Gateway</h3>
+        <p>Single entry point, routing, authentication, rate limiting וניהול ריכוזי של תקשורת מול שירותים.</p>
+      </div>
+
+      <div class="lesson-card c5">
+        <span class="num">05 · LESSON</span>
+        <h3>⚖️ Load Balancer</h3>
+        <p>Round Robin, Least Connections, IP Hash, Health Checks, High Availability ו-Horizontal Scaling.</p>
+      </div>
+
+      <div class="lesson-card c6">
+        <span class="num">06 · LESSON</span>
+        <h3>🐰 RabbitMQ · תורים</h3>
+        <p>Producer/Consumer, Exchanges, Dead Letter Queues, Acknowledgments ו-async messaging לניתוק שירותים.</p>
+      </div>
+
+      <div class="lesson-card c7">
+        <span class="num">07 · LESSON</span>
+        <h3>🔄 CI/CD</h3>
+        <p>Continuous Integration & Deployment, GitHub Actions, בדיקות אוטומטיות וניהול סביבות dev/staging/production.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOLDER STRUCTURE -->
+  <section>
+    <h2><span class="icon">📂</span> מבנה הקורס</h2>
+    <div class="tree-wrap">
+      <div class="tree-header">architecture-course/</div>
+<pre class="tree">
+<span class="dir">architecture-course/</span>
+│
+├── <span class="file">README.html</span>                        <span class="com"># ← קובץ זה</span>
+│
+├── <span class="dir">01-docker/</span>
+│   ├── <span class="file">README.md</span>                      <span class="com"># הסבר תיאורטי מלא</span>
+│   ├── <span class="dir">examples/</span>
+│   │   ├── <span class="file">Dockerfile.basic</span>
+│   │   ├── <span class="file">Dockerfile.multi-stage</span>
+│   │   └── <span class="file">docker-compose.yml</span>
+│   └── <span class="dir">exercises/</span>
+│       ├── <span class="file">README.md</span>                  <span class="com"># הוראות לשיעורי הבית</span>
+│       ├── <span class="dir">exercise-01/</span>               <span class="com"># Image לאפליקציית Node.js</span>
+│       ├── <span class="dir">exercise-02/</span>               <span class="com"># Docker Compose עם DB</span>
+│       └── <span class="dir">solution/</span>                  <span class="com"># נחשף לאחר ההגשה</span>
+│
+├── <span class="dir">02-caching/</span>
+│   ├── <span class="file">README.md</span>
+│   ├── <span class="dir">examples/</span>
+│   │   ├── <span class="dir">redis-basic/</span>
+│   │   └── <span class="dir">cache-aside-pattern/</span>
+│   └── <span class="dir">exercises/</span>
+│       ├── <span class="file">README.md</span>
+│       ├── <span class="dir">exercise-01/</span>               <span class="com"># הוספת cache לשירות קיים</span>
+│       ├── <span class="dir">exercise-02/</span>               <span class="com"># TTL ו-invalidation</span>
+│       └── <span class="dir">solution/</span>
+│
+├── <span class="dir">03-microservices/</span>
+│   ├── <span class="file">README.md</span>
+│   ├── <span class="dir">examples/</span>
+│   │   ├── <span class="dir">user-service/</span>
+│   │   ├── <span class="dir">order-service/</span>
+│   │   └── <span class="file">docker-compose.yml</span>
+│   └── <span class="dir">exercises/</span>
+│       ├── <span class="file">README.md</span>
+│       ├── <span class="dir">exercise-01/</span>               <span class="com"># פירוק מונוליט לשני שירותים</span>
+│       ├── <span class="dir">exercise-02/</span>               <span class="com"># תקשורת בין שירותים</span>
+│       └── <span class="dir">solution/</span>
+│
+├── <span class="dir">04-api-gateway/</span>
+│   ├── <span class="file">README.md</span>
+│   ├── <span class="dir">examples/</span>
+│   │   ├── <span class="dir">nginx-gateway/</span>
+│   │   └── <span class="dir">express-gateway/</span>
+│   └── <span class="dir">exercises/</span>
+│       ├── <span class="file">README.md</span>
+│       ├── <span class="dir">exercise-01/</span>               <span class="com"># routing ל-2 שירותים</span>
+│       ├── <span class="dir">exercise-02/</span>               <span class="com"># rate limiting + auth</span>
+│       └── <span class="dir">solution/</span>
+│
+├── <span class="dir">05-load-balancer/</span>
+│   ├── <span class="file">README.md</span>
+│   ├── <span class="dir">examples/</span>
+│   │   ├── <span class="dir">nginx-lb/</span>
+│   │   └── <span class="dir">docker-scale/</span>
+│   └── <span class="dir">exercises/</span>
+│       ├── <span class="file">README.md</span>
+│       ├── <span class="dir">exercise-01/</span>               <span class="com"># Round Robin ל-3 instances</span>
+│       ├── <span class="dir">exercise-02/</span>               <span class="com"># Health Checks + failover</span>
+│       └── <span class="dir">solution/</span>
+│
+├── <span class="dir">06-rabbitmq/</span>
+│   ├── <span class="file">README.md</span>
+│   ├── <span class="dir">examples/</span>
+│   │   ├── <span class="dir">basic-queue/</span>
+│   │   ├── <span class="dir">exchange-types/</span>
+│   │   └── <span class="dir">dead-letter-queue/</span>
+│   └── <span class="dir">exercises/</span>
+│       ├── <span class="file">README.md</span>
+│       ├── <span class="dir">exercise-01/</span>               <span class="com"># תור הזמנות אסינכרוני</span>
+│       ├── <span class="dir">exercise-02/</span>               <span class="com"># Dead Letter + retry logic</span>
+│       └── <span class="dir">solution/</span>
+│
+├── <span class="dir">07-ci-cd/</span>
+│   ├── <span class="file">README.md</span>
+│   ├── <span class="dir">examples/</span>
+│   │   ├── <span class="dir">.github/workflows/</span>
+│   │   │   ├── <span class="file">ci.yml</span>              <span class="com"># בדיקות אוטומטיות</span>
+│   │   │   └── <span class="file">cd.yml</span>              <span class="com"># דפלוימנט אוטומטי</span>
+│   │   └── <span class="file">Dockerfile</span>
+│   └── <span class="dir">exercises/</span>
+│       ├── <span class="file">README.md</span>
+│       ├── <span class="dir">exercise-01/</span>               <span class="com"># בניית CI Pipeline</span>
+│       ├── <span class="dir">exercise-02/</span>               <span class="com"># CD ל-staging</span>
+│       └── <span class="dir">solution/</span>
+│
+└── <span class="dir">final-project/</span>
+    ├── <span class="file">README.md</span>                      <span class="com"># תיאור הפרויקט הסופי</span>
+    └── <span class="file">requirements.md</span>               <span class="com"># דרישות ומבנה הגשה</span>
+</pre>
+    </div>
+  </section>
+
+  <!-- PREREQUISITES -->
+  <section>
+    <h2><span class="icon">✅</span> דרישות קדם</h2>
+    <div class="tags">
+      <span class="tag">JavaScript / Node.js בסיסי</span>
+      <span class="tag">Git & GitHub</span>
+      <span class="tag">HTTP ו-REST APIs</span>
+      <span class="tag">Terminal / Command Line</span>
+    </div>
+  </section>
+
+  <!-- TOOLS -->
+  <section>
+    <h2><span class="icon">🛠</span> כלים נדרשים</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>כלי</th>
+            <th>גרסה מינימלית</th>
+            <th>שימוש</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Docker Desktop</td><td>24+</td><td>קונטיינריזציה</td></tr>
+          <tr><td>Node.js</td><td>18 LTS</td><td>הרצת שירותים</td></tr>
+          <tr><td>Git</td><td>2.40+</td><td>ניהול קוד</td></tr>
+          <tr><td>VS Code</td><td>עדכנית</td><td>עריכת קוד</td></tr>
+          <tr><td>Postman / Insomnia</td><td>עדכנית</td><td>בדיקת APIs</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- SUBMISSION -->
+  <section>
+    <h2><span class="icon">📬</span> שיעורי בית והגשות</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <strong>Fork</strong>
+          <span>עשה Fork לחשבון האישי שלך ב-GitHub</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <strong>Branch</strong>
+          <span>צור branch חדש לכל תרגיל בפורמט: <code>exercise/01-docker-ex1</code></span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <strong>פתח Pull Request</strong>
+          <span>הגש עד 48 שעות לפני השיעור הבא. כלול <code>README.md</code> קצר בתיקיית התרגיל.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>רכיב</th><th>משקל</th></tr></thead>
+        <tbody>
+          <tr><td>שיעורי בית שבועיים</td><td>50%</td></tr>
+          <tr><td>פרויקט סופי</td><td>40%</td></tr>
+          <tr><td>השתתפות בשיעורים</td><td>10%</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section>
+    <h2><span class="icon">💬</span> יצירת קשר</h2>
+    <p style="color: var(--text-muted); margin-bottom: 16px;">לשאלות ועזרה — פתחו <strong>Issue</strong> ב-repository עם התגית המתאימה:</p>
+    <div class="issues">
+      <span class="issue-tag question">question — שאלה כללית</span>
+      <span class="issue-tag bug">bug — בעיה בקוד דוגמה</span>
+      <span class="issue-tag feedback">feedback — הצעות לשיפור</span>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <strong>Happy Coding 🚀</strong> — Architecture Course
+</footer>
+
+</body>
+</html>
